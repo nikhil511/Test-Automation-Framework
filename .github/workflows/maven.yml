@@ -2,7 +2,7 @@ name: Test Automation Workflow
 
 on:
   schedule:
-    cron:'00 18 * * *' 
+    - cron: '00 18 * * *'
   push:
     branches: [ "master" ]
   pull_request:
@@ -22,21 +22,21 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Running test automation framework with maven
-      run: mvn test -X -Dbrowser-chrome -DisLambdaTest-true -DisHeadless-false
+      run: mvn test -X -Dbrowser=chrome -DisLambdaTest=true -DisHeadless=false
 
     - name: Upload Test logs
-       if:always() 
-        uses:actions/upload-artifact@v4.4.3
-        with:
-         name: Test logs
-         path:logs/
+      if: always()
+      uses: actions/upload-artifact@v4.4.3
+      with:
+        name: Test logs
+        path: logs/
 
     - name: Upload Test Reports
-       if:always() 
-        uses:actions/upload-artifact@v4.4.3
-        with:
-         name: Test Reports
-         path:report.html
+      if: always()
+      uses: actions/upload-artifact@v4.4.3
+      with:
+        name: Test Reports
+        path: report.html
 
     - name: Test Execution status
       run: echo "Test Execution Completed"
