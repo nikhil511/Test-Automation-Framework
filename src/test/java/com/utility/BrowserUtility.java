@@ -142,7 +142,7 @@ public BrowserUtility (Browser browserName, boolean isHeadless) {
 		String timestamp = format.format(date);
 	    		
 		
-		String path = System.getProperty("user.dir")+"//screenshots//"+name+" - "+timestamp+ ".png";
+		String path = "./screenshots/"+name+" - "+timestamp+ ".png";
 		File screenshotData = screenshot.getScreenshotAs(OutputType.FILE);
 		File screenshotFile = new File(path);
 		try {
