@@ -1,35 +1,28 @@
 package com.ui.tests;
 
-import static com.constants.Browser.*;
-
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 import org.apache.logging.log4j.Logger;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import com.ui.pages.HomePage;
-import com.ui.pojo.User;
 import com.utility.LoggerUtility;
 
 @Listeners(com.ui.listeners.TestListener.class)
-public class LoginTest extends TestBase {
+public class InvalidCredsLoginTest extends TestBase {
 	
 	Logger logger = LoggerUtility.getLogger(this.getClass());
+	private static final String INVALID_EMAIL_ADDRESS= "NYIJ@SEDEEW.COM";
+	private static final String INVALID_PASSWORD= "qwewrw12";
+	
 
-	@BeforeMethod(description = "Load the home page of the website")
-	public void setup() {
+	
+	@Test(description = "Verify if the proper error message is shown for the user when they enter invalid credentials", groups = { "e2e",
+			"sanity","smoke" })
+	public void loginTest() {
 
-		homePage = new HomePage(CHROME,true);
-	}
-
-	@Test(description = "Verifies with the valid user is able to login", groups = { "e2e",
-			"sanity" }, dataProviderClass = com.ui.dataproviders.LoginDataProvider.class, dataProvider = "LoginTestDataProvider")
-	public void LoginTest(User user) throws InterruptedException {
-
-		assertEquals(homePage.goToLoginPage().doLoginwith(user.getEmailAddress(), user.getPassword()).getUserName(),
-				"Nik N");
+		assertEquals(homePage.goToLoginPage().doLoginWithInvalidCredentials(INVALID_EMAIL_ADDRESS, INVALID_PASSWORD).getErrorMessage()
+				,"Authentication failed.");
 
 	}
 
